@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shmedia — Atėjome ne filmuoti. Atėjome keisti.</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0b0b0b;
+  --white:#ffffff;
+  --off:#f7f4ef;
+  --gold:#d4a843;
+  --gold2:#b8902d;
+  --dark:#111111;
+  --gray:#888;
+  --light-gray:#f0ede8;
+  --border:#e8e4de;
+}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--black);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(255,255,255,0.97);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-0.02em;color:var(--black)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;font-size:0.82rem;font-weight:500;letter-spacing:0.04em}
+.nav-links a{color:#555;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold);color:var(--white);padding:0.6rem 1.5rem;font-size:0.8rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;border-radius:4px;transition:background 0.2s}
+.nav-cta:hover{background:var(--gold2)}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--black);display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(212,168,67,0.08) 0%,transparent 60%)}
+.hero-noise{position:absolute;inset:0;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")}
+.hero-badge{display:inline-block;background:rgba(212,168,67,0.12);border:1px solid rgba(212,168,67,0.3);color:var(--gold);padding:0.4rem 1rem;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border-radius:2px;margin-bottom:2.5rem;position:relative;z-index:2}
+.hero-title{font-family:'Montserrat',sans-serif;font-weight:900;font-style:italic;font-size:clamp(3rem,8vw,7.5rem);line-height:0.9;color:var(--white);position:relative;z-index:2;max-width:900px}
+.hero-title .line2{color:var(--gold);display:block}
+.hero-title .line3{color:rgba(255,255,255,0.25);display:block}
+.hero-sub{margin-top:2.5rem;font-size:1.05rem;color:rgba(255,255,255,0.55);max-width:480px;line-height:1.9;position:relative;z-index:2}
+.hero-sub strong{color:rgba(255,255,255,0.9);font-weight:500}
+.hero-btns{margin-top:3rem;display:flex;gap:1rem;flex-wrap:wrap;position:relative;z-index:2}
+.btn-gold{background:var(--gold);color:var(--black);padding:1rem 2.5rem;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:4px;transition:all 0.2s;display:inline-block}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-outline-white{border:1.5px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.7);padding:1rem 2.5rem;font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:4px;transition:all 0.2s;display:inline-block}
+.btn-outline-white:hover{border-color:var(--gold);color:var(--gold)}
+.hero-numbers{position:absolute;right:3rem;bottom:4rem;display:flex;gap:3rem;z-index:2}
+.hero-num{text-align:center}
+.hero-num-val{font-family:'Montserrat',sans-serif;font-weight:900;font-size:2.8rem;color:var(--white);line-height:1}
+.hero-num-val span{color:var(--gold)}
+.hero-num-label{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:0.4rem}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;z-index:2}
+.hero-scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollline 1.5s ease-in-out infinite}
+@keyframes scrollline{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.3)}}
+
+/* TICKER */
+.ticker{background:var(--gold);padding:0.65rem 0;overflow:hidden}
+.ticker-track{display:inline-flex;animation:tick 18s linear infinite}
+.t-item{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);padding:0 2rem}
+.t-dot{opacity:0.4}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* INTRO — nepirikupai style personal section */
+.intro{padding:6rem 3rem;background:var(--off);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.intro-left{}
+.intro-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.intro-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);line-height:1.05}
+.intro-title em{font-style:italic;color:var(--gold)}
+.intro-text{margin-top:1.5rem;font-size:0.95rem;color:#555;line-height:2}
+.intro-text strong{color:var(--black);font-weight:600}
+.intro-right{}
+.intro-quote{background:var(--black);color:var(--white);padding:2.5rem;border-radius:8px;position:relative}
+.intro-quote::before{content:'"';font-family:'Montserrat',sans-serif;font-weight:900;font-size:8rem;color:rgba(212,168,67,0.15);position:absolute;top:-1rem;left:1.5rem;line-height:1}
+.intro-quote-text{font-family:'Montserrat',sans-serif;font-weight:700;font-style:italic;font-size:1.4rem;line-height:1.4;color:var(--white);position:relative;z-index:1}
+.intro-quote-text em{color:var(--gold)}
+.intro-quote-sub{margin-top:1.5rem;font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase}
+
+/* SERVICES */
+.services{padding:7rem 3rem;background:var(--white)}
+.section-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem}
+.section-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem}
+.section-h{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3rem)}
+.section-side{max-width:26rem;font-size:0.88rem;color:#666;line-height:1.9;text-align:right}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border)}
+.srv{padding:2.5rem 2rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background 0.3s;cursor:default;position:relative;overflow:hidden}
+.srv:nth-child(3n){border-right:none}
+.srv:nth-child(n+4){border-bottom:none}
+.srv::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.35s}
+.srv:hover{background:var(--off)}
+.srv:hover::after{transform:scaleX(1)}
+.srv-n{font-family:'Montserrat',sans-serif;font-weight:900;font-size:2.5rem;color:rgba(0,0,0,0.04);margin-bottom:1rem}
+.srv-icon{font-size:1.6rem;margin-bottom:1rem}
+.srv-name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.6rem}
+.srv-text{font-size:0.82rem;color:#666;line-height:1.85}
+
+/* CLIENTS */
+.clients-sec{padding:5rem 3rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.clients-label{font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;text-align:center;margin-bottom:2.5rem}
+.clients-row{display:flex;flex-wrap:wrap;justify-content:center;gap:0}
+.cl{padding:1.8rem 3rem;border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.05em;color:#bbb;transition:color 0.25s;cursor:default}
+.cl:hover{color:var(--gold)}
+
+/* RESULTS SECTION — nepirikupai style bold claims */
+.results{padding:7rem 3rem;background:var(--black)}
+.results-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.results-left{}
+.results-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.results-title{font-family:'Montserrat',sans-serif;font-weight:900;font-style:italic;font-size:clamp(2rem,4vw,3.2rem);color:var(--white);line-height:1.05}
+.results-title em{color:var(--gold);font-style:italic}
+.results-text{margin-top:1.5rem;font-size:0.9rem;color:rgba(255,255,255,0.45);line-height:2}
+.results-text strong{color:rgba(255,255,255,0.85);font-weight:500}
+.results-cta{margin-top:2.5rem;display:inline-block}
+.results-right{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.06)}
+.result-item{background:var(--black);padding:1.8rem 2rem;display:flex;gap:1.5rem;align-items:flex-start;transition:background 0.25s}
+.result-item:hover{background:#161616}
+.ri-icon{width:44px;height:44px;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;border-radius:4px}
+.ri-title{font-weight:600;font-size:0.9rem;color:var(--white);margin-bottom:0.3rem}
+.ri-text{font-size:0.8rem;color:rgba(255,255,255,0.4);line-height:1.7}
+
+/* PROCESS */
+.process{padding:7rem 3rem;background:var(--off)}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:4rem;border:1px solid var(--border)}
+.proc{padding:2.5rem 2rem;border-right:1px solid var(--border);position:relative}
+.proc:last-child{border-right:none}
+.proc-n{font-family:'Montserrat',sans-serif;font-weight:900;font-size:3.5rem;color:rgba(0,0,0,0.05);position:absolute;top:1rem;right:1.5rem;line-height:1}
+.proc-dot{width:10px;height:10px;background:var(--gold);border-radius:50%;margin-bottom:1.5rem}
+.proc-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.8rem}
+.proc-text{font-size:0.8rem;color:#777;line-height:1.9}
+
+/* PORTFOLIO */
+.portfolio{padding:7rem 3rem;background:var(--white)}
+.port-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;margin-top:4rem}
+.pi{position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:flex-end;padding:1.5rem;min-height:200px}
+.pi::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75),rgba(0,0,0,0.1));z-index:1}
+.pi-bg{position:absolute;inset:0;transition:transform 0.6s}
+.pi:hover .pi-bg{transform:scale(1.06)}
+.pi-info{position:relative;z-index:2}
+.pi-cat{font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem}
+.pi-name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--white)}
+.p1{grid-column:span 7;aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a12,#252515)}
+.p2{grid-column:span 5;aspect-ratio:4/3;background:linear-gradient(135deg,#121620,#1a1f2a)}
+.p3{grid-column:span 4;aspect-ratio:1;background:linear-gradient(135deg,#1a1210,#221614)}
+.p4{grid-column:span 4;aspect-ratio:1;background:linear-gradient(135deg,#121a12,#162014)}
+.p5{grid-column:span 4;aspect-ratio:1;background:linear-gradient(135deg,#161616,#202020)}
+
+/* TESTIMONIALS */
+.testimonials{padding:7rem 3rem;background:var(--off)}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.review{background:var(--white);padding:2rem;border-radius:8px;border:1px solid var(--border)}
+.review-stars{color:var(--gold);font-size:0.9rem;margin-bottom:1rem;letter-spacing:0.1em}
+.review-text{font-size:0.88rem;color:#444;line-height:1.85;margin-bottom:1.5rem}
+.review-author{display:flex;align-items:center;gap:0.8rem}
+.review-avatar{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.8rem;color:var(--black);flex-shrink:0}
+.review-name{font-weight:600;font-size:0.85rem}
+.review-role{font-size:0.75rem;color:#999}
+
+/* CTA */
+.cta-sec{padding:8rem 3rem;background:var(--gold);position:relative;overflow:hidden;text-align:center}
+.cta-watermark{position:absolute;font-family:'Montserrat',sans-serif;font-weight:900;font-size:18vw;color:rgba(0,0,0,0.06);bottom:-2rem;left:50%;transform:translateX(-50%);white-space:nowrap;pointer-events:none;font-style:italic}
+.cta-inner{position:relative;z-index:2}
+.cta-badge{display:inline-block;background:rgba(0,0,0,0.08);color:rgba(0,0,0,0.55);padding:0.4rem 1rem;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border-radius:2px;margin-bottom:1.5rem}
+.cta-title{font-family:'Montserrat',sans-serif;font-weight:900;font-style:italic;font-size:clamp(2.5rem,6vw,5.5rem);color:var(--black);line-height:0.95;margin-bottom:1.5rem}
+.cta-sub{font-size:1rem;color:rgba(0,0,0,0.55);max-width:480px;margin:0 auto 3rem;line-height:1.8}
+.cta-form{display:flex;max-width:460px;margin:0 auto;border-radius:4px;overflow:hidden;border:2px solid rgba(0,0,0,0.12)}
+.cta-input{flex:1;padding:1rem 1.2rem;background:rgba(255,255,255,0.6);border:none;font-family:'Inter',sans-serif;font-size:0.9rem;color:var(--black);outline:none}
+.cta-input::placeholder{color:rgba(0,0,0,0.35)}
+.cta-btn{background:var(--black);color:var(--gold);padding:1rem 1.8rem;border:none;font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;white-space:nowrap}
+.cta-btn:hover{opacity:0.85}
+.cta-note{margin-top:1.2rem;font-size:0.75rem;color:rgba(0,0,0,0.4)}
+
+/* FOOTER */
+footer{background:var(--black);padding:3rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.06)}
+.foot-logo{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.3rem;color:var(--white)}
+.foot-logo span{color:var(--gold)}
+.foot-copy{font-size:0.75rem;color:rgba(255,255,255,0.25)}
+.foot-links{display:flex;gap:1.8rem;font-size:0.78rem;color:rgba(255,255,255,0.35)}
+.foot-links a:hover{color:var(--gold)}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.5rem 4rem}
+  .hero-numbers{position:static;margin-top:3rem;flex-wrap:wrap;gap:2rem}
+  .intro,.results-inner{grid-template-columns:1fr;gap:3rem}
+  .intro{padding:4rem 1.5rem}
+  .results{padding:5rem 1.5rem}
+  .services,.portfolio,.process,.testimonials,.clients-sec,.cta-sec{padding:4rem 1.5rem}
+  .srv-grid{grid-template-columns:1fr 1fr}
+  .srv:nth-child(2n){border-right:none}
+  .process-grid{grid-template-columns:1fr 1fr}
+  .proc:nth-child(2n){border-right:none}
+  .reviews-grid{grid-template-columns:1fr}
+  .port-grid{grid-template-columns:1fr}
+  .p1,.p2,.p3,.p4,.p5{grid-column:span 1}
+  footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
+  .section-top{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .section-side{text-align:left}
+  .hero-scroll{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Sh<span>media</span></div>
+  <div class="nav-links">
+    <a href="#services">Paslaugos</a>
+    <a href="#portfolio">Darbai</a>
+    <a href="#process">Kaip dirbame</a>
+    <a href="#contact">Kontaktai</a>
+  </div>
+  <a href="#contact" class="nav-cta">Gauti pasiūlymą</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-badge">Vilnius · Lietuva · Videografija</div>
+  <h1 class="hero-title">
+    Atėjome<br>
+    <span class="line2">ne filmuoti.</span>
+    <span class="line3">Atėjome keisti.</span>
+  </h1>
+  <p class="hero-sub">
+    Mes nesukuriame vaizdo turinio vien tam, kad atrodytų gražiai. <strong>Mes kuriame turinį, kuris atneša jums klientus, stiprina prekės ženklą ir daro rezultatus.</strong> Būtent tai daro Shmedia kitokiais.
+  </p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-gold">Pradėti projektą</a>
+    <a href="#portfolio" class="btn-outline-white">Peržiūrėti darbus</a>
+  </div>
+  <div class="hero-numbers">
+    <div class="hero-num">
+      <div class="hero-num-val">50<span>+</span></div>
+      <div class="hero-num-label">Klientų</div>
+    </div>
+    <div class="hero-num">
+      <div class="hero-num-val">200<span>+</span></div>
+      <div class="hero-num-label">Projektų</div>
+    </div>
+    <div class="hero-num">
+      <div class="hero-num-val">5<span>+</span></div>
+      <div class="hero-num-label">Metų patirties</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="t-item">Reklaminiai filmai <span class="t-dot">✦</span></span>
+    <span class="t-item">Brand video <span class="t-dot">✦</span></span>
+    <span class="t-item">Social media turinys <span class="t-dot">✦</span></span>
+    <span class="t-item">Renginių videografija <span class="t-dot">✦</span></span>
+    <span class="t-item">Motion graphics <span class="t-dot">✦</span></span>
+    <span class="t-item">Post-produkcija <span class="t-dot">✦</span></span>
+    <span class="t-item">Color grading <span class="t-dot">✦</span></span>
+    <span class="t-item">Reklaminiai filmai <span class="t-dot">✦</span></span>
+    <span class="t-item">Brand video <span class="t-dot">✦</span></span>
+    <span class="t-item">Social media turinys <span class="t-dot">✦</span></span>
+    <span class="t-item">Renginių videografija <span class="t-dot">✦</span></span>
+    <span class="t-item">Motion graphics <span class="t-dot">✦</span></span>
+    <span class="t-item">Post-produkcija <span class="t-dot">✦</span></span>
+    <span class="t-item">Color grading <span class="t-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- INTRO — personal, direct -->
+<section class="intro">
+  <div class="intro-left">
+    <div class="intro-tag">Kas mes</div>
+    <h2 class="intro-title">Esame tie, kurie daro <em>viską kitaip.</em></h2>
+    <p class="intro-text">
+      Shmedia – profesionali videografijos ir vaizdo turinio kūrimo komanda. Bet tai – tik žodžiai. Tikroji tiesa? <strong>Mūsų misija – vaizdo turiniu atnešti jums naujų klientų.</strong><br><br>
+      Dirbome su LRT, Qbuilds, Topo centru, Inner, Luku Smagurausku ir daugeliu kitų. Žinome, kas veikia. Žinome, kas ne. <strong>Ir niekada nepardavinėjame oro.</strong>
+    </p>
+  </div>
+  <div class="intro-right">
+    <div class="intro-quote">
+      <div class="intro-quote-text">
+        "Kiekvienas vaizdo įrašas, kurį kuriame, turi <em>vieną tikslą</em> — atnešti jums daugiau klientų."
+      </div>
+      <div class="intro-quote-sub">— Shmedia komanda</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-top">
+    <div>
+      <div class="section-tag">Ką darome</div>
+      <div class="section-h">Paslaugos</div>
+    </div>
+    <p class="section-side">Nuo pirmojo kadro iki galutinio failo — viskas vienoje vietoje, viena komanda.</p>
+  </div>
+  <div class="srv-grid">
+    <div class="srv">
+      <div class="srv-n">01</div>
+      <div class="srv-icon">🎬</div>
+      <div class="srv-name">Reklaminiai filmai</div>
+      <p class="srv-text">Vaizdo turinys, kuris parduoda. Nuo 15 sek. social ads iki pilnų TV reklamos formatų.</p>
+    </div>
+    <div class="srv">
+      <div class="srv-n">02</div>
+      <div class="srv-icon">🏢</div>
+      <div class="srv-name">Korporatyviniai video</div>
+      <p class="srv-text">Jūsų kompanijos istorija papasakota profesionaliai — kultūros, komandos, investuotojų video.</p>
+    </div>
+    <div class="srv">
+      <div class="srv-n">03</div>
+      <div class="srv-icon">📱</div>
+      <div class="srv-name">Social media turinys</div>
+      <p class="srv-text">Instagram Reels, TikTok, LinkedIn — formatai, kurie sulaukia tikrų reakcijų ir tikrų klientų.</p>
+    </div>
+    <div class="srv">
+      <div class="srv-n">04</div>
+      <div class="srv-icon">🎤</div>
+      <div class="srv-name">Renginių videografija</div>
+      <p class="srv-text">Konferencijos, pristatymai, gyvos transliacijos. Kelių kamerų sistema, profesionali komanda.</p>
+    </div>
+    <div class="srv">
+      <div class="srv-n">05</div>
+      <div class="srv-icon">✨</div>
+      <div class="srv-name">Motion graphics</div>
+      <p class="srv-text">Animacijos, infografikos, titles ir grafika, kuri pakelia jūsų video į kitą kokybės lygį.</p>
+    </div>
+    <div class="srv">
+      <div class="srv-n">06</div>
+      <div class="srv-icon">🎞</div>
+      <div class="srv-name">Post-produkcija</div>
+      <p class="srv-text">Montažas, spalvų korekcija, garso dizainas. Jūsų medžiagai — mūsų profesionali apdaila.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients-sec">
+  <div class="clients-label">Mums patikėjo savo vardą</div>
+  <div class="clients-row">
+    <div class="cl">LRT</div>
+    <div class="cl">Qbuilds</div>
+    <div class="cl">Topo centras</div>
+    <div class="cl">Inner</div>
+    <div class="cl">Lukas Smagurauskas</div>
+  </div>
+</section>
+
+<!-- RESULTS — the "why us" with bold claims -->
+<section class="results" id="about">
+  <div class="results-inner">
+    <div class="results-left">
+      <div class="results-tag">Kodėl Shmedia</div>
+      <h2 class="results-title">
+        Mes nesukuriame<br>
+        <em>gražių video.</em><br>
+        Mes sukuriame<br>
+        <em>rezultatus.</em>
+      </h2>
+      <p class="results-text">
+        Daugelis videografų ateina, nufilmuoja, išsiunčia failą — ir dingsta. <strong>Mes dirbame kitaip.</strong> Mums rūpi, ar jūsų vaizdo turinys atneša grąžą. Ar žmonės reaguoja. Ar klientai skambina.<br><br>
+        Būtent todėl LRT, Topo centras ir kiti vardai sugrįžta pas mus vėl ir vėl.
+      </p>
+      <a href="#contact" class="btn-gold results-cta">Noriu tokių rezultatų</a>
+    </div>
+    <div class="results-right">
+      <div class="result-item">
+        <div class="ri-icon">⚡</div>
+        <div>
+          <div class="ri-title">Greitas įgyvendinimas</div>
+          <p class="ri-text">Laikomės terminų be jokių pasiteisinimų. Jūsų projektas baigtas laiku — visada.</p>
+        </div>
+      </div>
+      <div class="result-item">
+        <div class="ri-icon">💬</div>
+        <div>
+          <div class="ri-title">Aiški komunikacija</div>
+          <p class="ri-text">Žinote, kas vyksta kiekviename žingsnyje. Jokių netikėtumų, tik skaidrumas.</p>
+        </div>
+      </div>
+      <div class="result-item">
+        <div class="ri-icon">💰</div>
+        <div>
+          <div class="ri-title">Konkurencingos kainos</div>
+          <p class="ri-text">TV kokybė neturi kainuoti TV kainomis. Sąžininga kainodara, jokio oro pardavinėjimo.</p>
+        </div>
+      </div>
+      <div class="result-item">
+        <div class="ri-icon">🎯</div>
+        <div>
+          <div class="ri-title">Turinys, kuris konvertuoja</div>
+          <p class="ri-text">Kiekvienas video sukurtas su tikslu — pritraukti klientus, ne tik views.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-top">
+    <div>
+      <div class="section-tag">Kaip dirbame</div>
+      <div class="section-h">Procesas</div>
+    </div>
+    <p class="section-side">Nuo pirmojo skambučio iki galutinio failo — žinote viską, kas vyksta.</p>
+  </div>
+  <div class="process-grid">
+    <div class="proc">
+      <div class="proc-n">01</div>
+      <div class="proc-dot"></div>
+      <div class="proc-title">Susitikimas & Briefas</div>
+      <p class="proc-text">Aptariame jūsų tikslus, auditoriją ir biudžetą. Paruošiame detalų kūrybinį planą.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-n">02</div>
+      <div class="proc-dot"></div>
+      <div class="proc-title">Pre-produkcija</div>
+      <p class="proc-text">Scenarijus, storyboard, lokacijos, aktoriai — visi parengiamieji darbai mūsų rankose.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-n">03</div>
+      <div class="proc-dot"></div>
+      <div class="proc-title">Filmavimas</div>
+      <p class="proc-text">Profesionali komanda ir įranga. Greitai, punktualiai, be streso jūsų pusėje.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-n">04</div>
+      <div class="proc-dot"></div>
+      <div class="proc-title">Pristatymas</div>
+      <p class="proc-text">Montažas, spalvos, garsas. Korekcijų raundai kol esate 100% patenkinti.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-top">
+    <div>
+      <div class="section-tag">Mūsų darbai</div>
+      <div class="section-h">Portfolio</div>
+    </div>
+    <a href="#contact" style="display:inline-block;border:1.5px solid var(--border);color:#555;padding:0.7rem 1.8rem;font-size:0.8rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;border-radius:4px;transition:all 0.2s" onmouseover="this.style.borderColor='#d4a843';this.style.color='#d4a843'" onmouseout="this.style.borderColor='#e8e4de';this.style.color='#555'">Žiūrėti visus</a>
+  </div>
+  <div class="port-grid">
+    <div class="pi p1">
+      <div class="pi-bg" style="background:linear-gradient(135deg,#1c1a10,#25200f)"></div>
+      <div class="pi-info">
+        <div class="pi-cat">TV · Nacionalinis</div>
+        <div class="pi-name">LRT — Korporatyvinis filmas</div>
+      </div>
+    </div>
+    <div class="pi p2">
+      <div class="pi-bg" style="background:linear-gradient(135deg,#101820,#151f2a)"></div>
+      <div class="pi-info">
+        <div class="pi-cat">Statyba · Brand video</div>
+        <div class="pi-name">Qbuilds — Brand video</div>
+      </div>
+    </div>
+    <div class="pi p3">
+      <div class="pi-bg" style="background:linear-gradient(135deg,#181210,#221614)"></div>
+      <div class="pi-info">
+        <div class="pi-cat">Retail · Reklama</div>
+        <div class="pi-name">Topo centras</div>
+      </div>
+    </div>
+    <div class="pi p4">
+      <div class="pi-bg" style="background:linear-gradient(135deg,#101a12,#14221a)"></div>
+      <div class="pi-info">
+        <div class="pi-cat">Lifestyle</div>
+        <div class="pi-name">Inner</div>
+      </div>
+    </div>
+    <div class="pi p5">
+      <div class="pi-bg" style="background:linear-gradient(135deg,#181414,#222020)"></div>
+      <div class="pi-info">
+        <div class="pi-cat">Personal Brand</div>
+        <div class="pi-name">L. Smagurauskas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-top">
+    <div>
+      <div class="section-tag">Ką sako klientai</div>
+      <div class="section-h">Atsiliepimai</div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Shmedia komanda viršijo visus lūkesčius. Greitas pristatymas, puiki kokybė — ir svarbiausia, video atneša tikrus rezultatus."</p>
+      <div class="review-author">
+        <div class="review-avatar">MK</div>
+        <div>
+          <div class="review-name">Mantas K.</div>
+          <div class="review-role">Qbuilds</div>
+        </div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Profesionali komanda, aiški komunikacija ir terminas laikytas iki minutės. Rekomenduočiau kiekvienam, kam svarbus rezultatas."</p>
+      <div class="review-author">
+        <div class="review-avatar">JB</div>
+        <div>
+          <div class="review-name">Jolanta B.</div>
+          <div class="review-role">Topo centras</div>
+        </div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Dirbome su daugeliu videografų — Shmedia išsiskiria tuo, kad jiems rūpi ne tik gražus vaizdas, bet ir tai, ar jis veikia."</p>
+      <div class="review-author">
+        <div class="review-avatar">LS</div>
+        <div>
+          <div class="review-name">Lukas Smagurauskas</div>
+          <div class="review-role">Personal Brand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contact">
+  <div class="cta-watermark">SHMEDIA</div>
+  <div class="cta-inner">
+    <div class="cta-badge">Pradėkime</div>
+    <h2 class="cta-title">Jūsų klientai<br>ieško jūsų dabar.</h2>
+    <p class="cta-sub">Palikite el. paštą — susisieksime per 24 val. su konkrečiu pasiūlymu jūsų verslui.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" placeholder="jusu@kompanija.lt">
+      <button class="cta-btn">Siųsti →</button>
+    </div>
+    <p class="cta-note">Arba skambinkite: +370 600 00000</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Sh<span>media</span></div>
+  <div class="foot-copy">© 2025 Shmedia. Visos teisės saugomos.</div>
+  <div class="foot-links">
+    <a href="#">Instagram</a>
+    <a href="#">Vimeo</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>
